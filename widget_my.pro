@@ -13,10 +13,15 @@ TEMPLATE = app
 CONFIG += c++11
 
 SOURCES += main.cpp\
+    Title.cpp \
         widget.cpp \
     test.cpp
 
 HEADERS  += widget.h \
+    Title.h \
     test.h
 
 FORMS    +=
+
+RESOURCES += \
+    image.qrc

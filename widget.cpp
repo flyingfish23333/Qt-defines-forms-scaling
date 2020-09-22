@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include<QDebug>
 
 
@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent) :
     this->setAttribute(Qt::WA_Mapped);
     this->setMinimumSize(500,300);
     this->set_title();
+
 
 
 }
@@ -95,49 +96,49 @@ void Widget::set_Cursor(QMouseEvent *event)
     if(top_.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeVerCursor));  // 设置鼠标形状  上
-        site_flag = top;
+        site_flag = LocaTion::top;
     }
 
     else if(bottom_.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeVerCursor));  // 设置鼠标形状  下
-        site_flag = bottom;
+        site_flag = LocaTion::bottom;
     }
     else if(left_.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeHorCursor));  // 设置鼠标形状  左
-        site_flag = left;
+        site_flag = LocaTion::left;
     }
     else if(right_.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeHorCursor));  // 设置鼠标形状  右
-        site_flag = right;
+        site_flag = LocaTion::right;
     }
     else if (top_left.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeFDiagCursor));  // 设置鼠标形状 左上
-        site_flag = left_top;
+        site_flag = LocaTion::left_top;
 
     }
     else if (top_right.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeBDiagCursor));  // 设置鼠标形状 右上
-        site_flag = right_top;
+        site_flag = LocaTion::right_top;
     }
     else if (bottom_left.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeBDiagCursor));  // 设置鼠标形状 左下
-        site_flag = left_bottm;
+        site_flag = LocaTion::left_bottm;
     }
     else if(bottom_right.contains(event->pos()))
     {
         this->setCursor(QCursor(Qt::SizeFDiagCursor));  // 设置鼠标形状 右下
-        site_flag = right_botm;
+        site_flag = LocaTion::right_botm;
     }
     else
     {
         this->setCursor(QCursor(Qt::ArrowCursor));
-        site_flag =  middle;
+        site_flag =  LocaTion::middle;
     }
 
 }
@@ -157,7 +158,7 @@ void Widget::set_Stretch(QMouseEvent *event)
     QRect rMove(topLeft, bottomRight);
 
     switch (site_flag) {
-    case left:
+    case LocaTion::left:
 
         if (bottomRight.x() - gloPoint.x() > this->minimumWidth())
         {
@@ -165,28 +166,28 @@ void Widget::set_Stretch(QMouseEvent *event)
         }
         this->setGeometry(rMove);
         break;
-    case top:
+    case LocaTion::top:
         if (bottomRight.y() - gloPoint.y() > this->minimumHeight())
         {
             rMove.setY(gloPoint.y());
         }
         this->setGeometry(rMove);
         break;
-    case right:
+    case LocaTion::right:
         if (gloPoint.x() - bottomLeft.x() > this->minimumWidth())
         {
             rMove.setWidth(gloPoint.x() - bottomLeft.x());
         }
         this->setGeometry(rMove);
         break;
-    case bottom:
+    case LocaTion::bottom:
         if (gloPoint.y() - topRight.y() > this->minimumHeight())
         {
             rMove.setHeight(gloPoint.y() - topRight.y());
         }
         this->setGeometry(rMove);
         break;
-    case left_top:
+    case LocaTion::left_top:
         if ((bottomRight.y() - gloPoint.y() <= this->minimumHeight()) )
         {
             rMove.setX(topLeft.x());
@@ -205,7 +206,7 @@ void Widget::set_Stretch(QMouseEvent *event)
         }
         this->setGeometry(rMove);
         break;
-    case right_top:
+    case LocaTion::right_top:
         if (bottomRight.y() - gloPoint.y()  <= this->minimumHeight())
         {
             rMove.setWidth(gloPoint.x() - topLeft.x());
@@ -223,7 +224,7 @@ void Widget::set_Stretch(QMouseEvent *event)
         }
         this->setGeometry(rMove);
         break;
-    case left_bottm:
+    case LocaTion::left_bottm:
 
         if(bottomRight.x() - gloPoint.x() <= this->minimumWidth())
         {
@@ -242,7 +243,7 @@ void Widget::set_Stretch(QMouseEvent *event)
         }
         this->setGeometry(rMove);
         break;
-    case right_botm:
+    case LocaTion::right_botm:
         if( gloPoint.y() - topLeft.y()  <= this->minimumHeight())
         {
             rMove.setWidth(gloPoint.x()- topLeft.x());
@@ -260,7 +261,7 @@ void Widget::set_Stretch(QMouseEvent *event)
         }
         this->setGeometry(rMove);
         break;
-    case middle:
+    case LocaTion::middle:
 
         window()->move(window()->pos() +  gloPoint - Current_Pos);
         Current_Pos = gloPoint;
@@ -280,12 +281,10 @@ void Widget::set_title(QColor color ,int height )
     QColor(22, 164, 250);
     QPalette pal;
     pal.setColor(QPalette::Background, color);
-    title = new QWidget(this);
-    title->setParent(this);
+    title = new Title;
     title->setAutoFillBackground(true);
     title->setPalette(pal);
-    title->setFixedHeight(30);
-    title->setMouseTracking(true);
+    title->setFixedHeight(height);
     HB = new QHBoxLayout;
     HB->addWidget(title);
     HB->setContentsMargins(0,0,0,this->height()- height);
